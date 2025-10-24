@@ -2,6 +2,8 @@
 
 A decentralized NFT marketplace built on the Internet Computer blockchain. Create, buy, and sell NFTs using MAJI tokens in a secure, fully on-chain environment.
 
+- [Demo Video] (https://drive.google.com/file/d/1AU_AlBCx4G8IRBTlW6D-5ui8iiAFnx1l/view?usp=sharing)
+
 ## 🌟 Features
 
 - **Mint NFTs**: Create unique NFTs with custom images and names
