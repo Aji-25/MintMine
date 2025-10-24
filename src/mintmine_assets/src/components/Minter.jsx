@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { opend } from "../../../declarations/opend";
-import { Principal } from "@dfinity/principal";
+import { mintmine } from "../../../declarations/mintmine";
 import Item from "./Item";
 
 function Minter() {
@@ -16,13 +15,12 @@ function Minter() {
     const imageArray = await image.arrayBuffer();
     const imageByteData = [...new Uint8Array(imageArray)];
 
-    const newNFTID = await opend.mint(imageByteData, name);
-    console.log(newNFTID.toText());
+    const newNFTID = await mintmine.mint(imageByteData, name);
     setNFTPrincipal(newNFTID);
     setLoaderHidden(true);
   }
 
-  if (nftPrincipal == "") {
+  if (!nftPrincipal) {
     return (
       <div className="minter-container">
         <div hidden={loaderHidden} className="lds-ellipsis">

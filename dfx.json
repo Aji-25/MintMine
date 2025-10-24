@@ -1,7 +1,7 @@
 {
   "canisters": {
-    "opend": {
-      "main": "src/opend/main.mo",
+    "mintmine": {
+      "main": "src/mintmine/main.mo",
       "type": "motoko"
     },
     "nft": {
@@ -12,16 +12,16 @@
       "main": "src/token/main.mo",
       "type": "motoko"
     },
-    "opend_assets": {
+    "mintmine_assets": {
       "dependencies": [
-        "opend"
+        "mintmine"
       ],
       "frontend": {
-        "entrypoint": "src/opend_assets/src/index.html"
+        "entrypoint": "src/mintmine_assets/src/index.html"
       },
       "source": [
-        "src/opend_assets/assets",
-        "dist/opend_assets/"
+        "src/mintmine_assets/assets",
+        "dist/mintmine_assets/"
       ],
       "type": "assets"
     }

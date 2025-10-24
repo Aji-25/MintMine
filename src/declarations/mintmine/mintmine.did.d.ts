@@ -3,7 +3,7 @@ export interface _SERVICE {
   'completePurchase' : (arg_0: Principal, arg_1: Principal) => Promise<string>,
   'getListedNFTPrice' : (arg_0: Principal) => Promise<bigint>,
   'getListedNFTs' : () => Promise<Array<Principal>>,
-  'getOpenDCanisterID' : () => Promise<Principal>,
+  'getMintMineCanisterID' : () => Promise<Principal>,
   'getOriginalOwner' : (arg_0: Principal) => Promise<Principal>,
   'getOwnedNFTs' : (arg_0: Principal) => Promise<Array<Principal>>,
   'isListed' : (arg_0: Principal) => Promise<boolean>,

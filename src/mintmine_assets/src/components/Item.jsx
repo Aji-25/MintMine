@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import logo from "../../assets/logo.png";
+import React, { useEffect, useState, useRef } from "react";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from "../../../declarations/nft";
 import { idlFactory as tokenIdlFactory } from "../../../declarations/token";
 import { Principal } from "@dfinity/principal";
-import { opend } from "../../../declarations/opend";
+import { mintmine } from "../../../declarations/mintmine";
 import Button from "./Button";
 import CURRENT_USER_ID from "../index";
 import PriceLabel from "./PriceLabel";
@@ -13,32 +12,38 @@ function Item(props) {
   const [name, setName] = useState();
   const [owner, setOwner] = useState();
   const [image, setImage] = useState();
-  const [button, setButton] = useState();
-  const [priceInput, setPriceInput] = useState();
+  const [showSellButton, setShowSellButton] = useState(false);
+  const [showConfirmButton, setShowConfirmButton] = useState(false);
+  const [showBuyButton, setShowBuyButton] = useState(false);
+  const [showPriceInput, setShowPriceInput] = useState(false);
   const [loaderHidden, setLoaderHidden] = useState(true);
   const [blur, setBlur] = useState();
   const [sellStatus, setSellStatus] = useState("");
   const [priceLabel, setPriceLabel] = useState();
   const [shouldDisplay, setDisplay] = useState(true);
-
-  const id = props.id;
+  const [sellPrice, setSellPrice] = useState("");
+  const sellPriceRef = useRef("");
+  const NFTActorRef = useRef(null);
 
   const localHost = "http://localhost:8080/";
   const agent = new HttpAgent({ host: localHost });
 
-  //TODO: When deploy live, remove the following line.
-  agent.fetchRootKey();
-  let NFTActor;
+  if (process.env.NODE_ENV !== "production") {
+    agent.fetchRootKey();
+  }
 
   async function loadNFT() {
-    NFTActor = await Actor.createActor(idlFactory, {
+    const nftActor = await Actor.createActor(idlFactory, {
       agent,
-      canisterId: id,
+      canisterId: props.id,
     });
+    
+    // Store the actor in the ref for later use
+    NFTActorRef.current = nftActor;
 
-    const name = await NFTActor.getName();
-    const owner = await NFTActor.getOwner();
-    const imageData = await NFTActor.getAsset();
+    const name = await nftActor.getName();
+    const owner = await nftActor.getOwner();
+    const imageData = await nftActor.getAsset();
     const imageContent = new Uint8Array(imageData);
     const image = URL.createObjectURL(
       new Blob([imageContent.buffer], { type: "image/png" })
@@ -48,23 +53,24 @@ function Item(props) {
     setOwner(owner.toText());
     setImage(image);
 
-    if (props.role == "collection") {
-      const nftIsListed = await opend.isListed(props.id);
+    if (props.role === "collection") {
+      const nftIsListed = await mintmine.isListed(props.id);
 
       if (nftIsListed) {
-        setOwner("OpenD");
+        setOwner("MintMine");
         setBlur({ filter: "blur(4px)" });
         setSellStatus("Listed");
       } else {
-        setButton(<Button handleClick={handleSell} text={"Sell"} />);
+        setShowSellButton(true);
       }
-    } else if (props.role == "discover") {
-      const originalOwner = await opend.getOriginalOwner(props.id);
-      if (originalOwner.toText() != CURRENT_USER_ID.toText()) {
-        setButton(<Button handleClick={handleBuy} text={"Buy"} />);
+    } else if (props.role === "discover") {
+      const originalOwner = await mintmine.getOriginalOwner(props.id);
+      
+      if (originalOwner.toText() !== CURRENT_USER_ID.toText()) {
+        setShowBuyButton(true);
       }
 
-      const price = await opend.getListedNFTPrice(props.id);
+      const price = await mintmine.getListedNFTPrice(props.id);
       setPriceLabel(<PriceLabel sellPrice={price.toString()} />);
     }
   }
@@ -73,43 +79,39 @@ function Item(props) {
     loadNFT();
   }, []);
 
-  let price;
   function handleSell() {
-    console.log("Sell clicked");
-    setPriceInput(
-      <input
-        placeholder="Price in DANG"
-        type="number"
-        className="price-input"
-        value={price}
-        onChange={(e) => (price = e.target.value)}
-      />
-    );
-    setButton(<Button handleClick={sellItem} text={"Confirm"} />);
+    setSellPrice("");
+    sellPriceRef.current = "";
+    setShowPriceInput(true);
+    setShowSellButton(false);
+    setShowConfirmButton(true);
   }
 
   async function sellItem() {
     setBlur({ filter: "blur(4px)" });
     setLoaderHidden(false);
-    console.log("set price = " + price);
-    const listingResult = await opend.listItem(props.id, Number(price));
-    console.log("listing: " + listingResult);
-    if (listingResult == "Success") {
-      const openDId = await opend.getOpenDCanisterID();
-      const transferResult = await NFTActor.transferOwnership(openDId);
-      console.log("transfer: " + transferResult);
-      if (transferResult == "Success") {
+    
+    const priceToSell = sellPriceRef.current || sellPrice;
+    const listingResult = await mintmine.listItem(props.id, Number(priceToSell));
+    
+    if (listingResult === "Success") {
+      const mintMineId = await mintmine.getMintMineCanisterID();
+      const transferResult = await NFTActorRef.current.transferOwnership(mintMineId);
+      
+      if (transferResult === "Success") {
         setLoaderHidden(true);
-        setButton();
-        setPriceInput();
-        setOwner("OpenD");
+        setShowConfirmButton(false);
+        setShowPriceInput(false);
+        setOwner("MintMine");
         setSellStatus("Listed");
+        // Clear the price after successful sale
+        setSellPrice("");
+        sellPriceRef.current = "";
       }
     }
   }
 
   async function handleBuy() {
-    console.log("Buy was triggered");
     setLoaderHidden(false);
     // After deployment, get the token canister ID by running: dfx canister id token
     // Then replace the placeholder below with that ID
@@ -118,17 +120,12 @@ function Item(props) {
       canisterId: Principal.fromText("rkp4c-7iaaa-aaaaa-aaaca-cai"),
     });
 
-    const sellerId = await opend.getOriginalOwner(props.id);
-    const itemPrice = await opend.getListedNFTPrice(props.id);
+    const sellerId = await mintmine.getOriginalOwner(props.id);
+    const itemPrice = await mintmine.getListedNFTPrice(props.id);
 
     const result = await tokenActor.transfer(sellerId, itemPrice);
-    if (result == "Success") {
-      const transferResult = await opend.completePurchase(
-        props.id,
-        sellerId,
-        CURRENT_USER_ID
-      );
-      console.log("purchase: " + transferResult);
+    if (result === "Success") {
+      await mintmine.completePurchase(props.id, sellerId);
       setLoaderHidden(true);
       setDisplay(false);
     }
@@ -160,8 +157,22 @@ function Item(props) {
           <p className="disTypography-root makeStyles-bodyText-24 disTypography-body2 disTypography-colorTextSecondary">
             Owner: {owner}
           </p>
-          {priceInput}
-          {button}
+          {showPriceInput && (
+            <input
+              placeholder="Price in MAJI"
+              type="number"
+              className="price-input"
+              value={sellPrice}
+              onChange={(e) => {
+                const newPrice = e.target.value;
+                setSellPrice(newPrice);
+                sellPriceRef.current = newPrice;
+              }}
+            />
+          )}
+          {showSellButton && <Button handleClick={handleSell} text={"Sell"} />}
+          {showConfirmButton && <Button handleClick={sellItem} text={"Confirm"} />}
+          {showBuyButton && <Button handleClick={handleBuy} text={"Buy"} />}
         </div>
       </div>
     </div>

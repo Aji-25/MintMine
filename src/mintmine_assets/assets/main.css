@@ -10,7 +10,7 @@ body {
 }
 
 a {
-  color: #5f64b5 !important;
+  color: #2563eb !important;
   text-decoration: none !important;
 }
 
@@ -245,7 +245,7 @@ body {
 }
 
 .purple-text {
-  color: #5f64b5 !important;
+  color: #2563eb !important;
 }
 
 .body-7 {
@@ -937,7 +937,7 @@ label[data-shrink="false"]
   color: #777e90;
 }
 .makeStyles-chipBlue-108 {
-  color: #5f64b5;
+  color: #2563eb;
   height: 50px;
   padding: 5px;
   font-size: 16px;
@@ -958,7 +958,7 @@ label[data-shrink="false"]
 }
 .makeStyles-form-109 .form-OutlinedInput-root:hover fieldset {
   color: #777e90;
-  border-color: #5f64b5;
+  border-color: #2563eb;
 }
 .makeStyles-form-109 .form-TextField-root fieldset {
   color: #777e90;
@@ -1245,12 +1245,12 @@ label[data-shrink="false"]
   letter-spacing: 1.1px;
 }
 .makeStyles-price-23 {
-  color: #5f64b5;
+  color: #2563eb;
   height: 20px;
   font-size: 10px;
   text-align: center;
   font-weight: bold;
-  border-color: #5f64b5;
+  border-color: #2563eb;
   border-width: 2px;
   border-radius: 3px;
   margin-bottom: 5px;
@@ -1324,5 +1324,129 @@ label[data-shrink="false"]
   }
   100% {
     transform: translate(24px, 0);
+  }
+}
+
+/* MintMine Logo */
+.mintmine-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Homepage Hero Section */
+.homepage-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #141416;
+  padding: 2rem;
+}
+
+.hero-section {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #fcfcfd;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-highlight {
+  color: #2563eb;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #9ca3af;
+  margin: 0 auto 2.5rem;
+  max-width: 42rem;
+  line-height: 1.75;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #fcfcfd;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #fcfcfd;
+  border: 2px solid #2563eb;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
   }
 }

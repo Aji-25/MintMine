@@ -2,7 +2,7 @@ service : {
   completePurchase: (principal, principal) -> (text);
   getListedNFTPrice: (principal) -> (nat) query;
   getListedNFTs: () -> (vec principal) query;
-  getOpenDCanisterID: () -> (principal) query;
+  getMintMineCanisterID: () -> (principal) query;
   getOriginalOwner: (principal) -> (principal) query;
   getOwnedNFTs: (principal) -> (vec principal) query;
   isListed: (principal) -> (bool) query;

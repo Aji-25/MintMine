@@ -1,133 +1,277 @@
-Copyright 2022 London App Brewery LTD (www.appbrewery.com)
+# MintMine 🎨
 
-The code in this tutorial project is licended under the Apache License, Version 2.0 (the "License");
-you may not use this project except in compliance with the License.
-You may obtain a copy of the License at
+A decentralized NFT marketplace built on the Internet Computer blockchain. Create, buy, and sell NFTs using MAJI tokens in a secure, fully on-chain environment.
 
-    http://www.apache.org/licenses/LICENSE-2.0
+![MintMine](src/mintmine_assets/assets/logo.png)
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## 🌟 Features
 
-Here is the TL;DR version of the above licence:
-https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
+- **Mint NFTs**: Create unique NFTs with custom images and names
+- **NFT Marketplace**: Browse and discover NFTs listed for sale
+- **Buy & Sell**: Trade NFTs using MAJI tokens
+- **Personal Collection**: Manage your owned NFTs
+- **Fully On-Chain**: All data stored on the Internet Computer blockchain
+- **Decentralized**: No central authority or database
 
-# To Install and Run the Project
+## 🏗️ Architecture
 
-1. start local dfx
+MintMine consists of four main canisters:
 
-```
-dfx start --clean
-```
+### Backend Canisters (Motoko)
 
-2. Run NPM server
+1. **mintmine** - Core marketplace logic
+   - NFT listing and delisting
+   - Purchase management
+   - Owner tracking
+   - Price management
 
-```
-npm start
-```
+2. **nft** - NFT smart contract
+   - Individual NFT data and metadata
+   - Ownership management
+   - Asset storage
 
-3. Deploy canisters
+3. **token** - MAJI token implementation
+   - Token transfers
+   - Balance management
+   - Transaction handling
 
-```
-dfx deploy --argument='("CryptoDunks #123", principal "gbdev-tyqsv-hnvqv-7mgz4-4kcfl-wbv6x-6khez-y56gq-uohqs-quomc-uqe", (vec {137; 80; 78; 71; 13; 10; 26; 10; 0; 0; 0; 13; 73; 72; 68; 82; 0; 0; 0; 10; 0; 0; 0; 10; 8; 6; 0; 0; 0; 141; 50; 207; 189; 0; 0; 0; 1; 115; 82; 71; 66; 0; 174; 206; 28; 233; 0; 0; 0; 68; 101; 88; 73; 102; 77; 77; 0; 42; 0; 0; 0; 8; 0; 1; 135; 105; 0; 4; 0; 0; 0; 1; 0; 0; 0; 26; 0; 0; 0; 0; 0; 3; 160; 1; 0; 3; 0; 0; 0; 1; 0; 1; 0; 0; 160; 2; 0; 4; 0; 0; 0; 1; 0; 0; 0; 10; 160; 3; 0; 4; 0; 0; 0; 1; 0; 0; 0; 10; 0; 0; 0; 0; 59; 120; 184; 245; 0; 0; 0; 113; 73; 68; 65; 84; 24; 25; 133; 143; 203; 13; 128; 48; 12; 67; 147; 94; 97; 30; 24; 0; 198; 134; 1; 96; 30; 56; 151; 56; 212; 85; 68; 17; 88; 106; 243; 241; 235; 39; 42; 183; 114; 137; 12; 106; 73; 236; 105; 98; 227; 152; 6; 193; 42; 114; 40; 214; 126; 50; 52; 8; 74; 183; 108; 158; 159; 243; 40; 253; 186; 75; 122; 131; 64; 0; 160; 192; 168; 109; 241; 47; 244; 154; 152; 112; 237; 159; 252; 105; 64; 95; 48; 61; 12; 3; 61; 167; 244; 38; 33; 43; 148; 96; 3; 71; 8; 102; 4; 43; 140; 164; 168; 250; 23; 219; 242; 38; 84; 91; 18; 112; 63; 0; 0; 0; 0; 73; 69; 78; 68; 174; 66; 96; 130;}))'
-```
+### Frontend
 
-4. Head to localhost
+4. **mintmine_assets** - React-based web interface
+   - Modern, responsive UI
+   - Seamless Web3 integration
+   - Real-time NFT display
 
-http://localhost:8080/
+## 🚀 Getting Started
 
-# Minter Else HTML
+### Prerequisites
 
-```
- <div className="minter-container">
-        <h3 className="Typography-root makeStyles-title-99 Typography-h3 form-Typography-gutterBottom">
-          Minted!
-        </h3>
-        <div className="horizontal-center">
-        </div>
-      </div>
+- [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install/) (v0.9.3 or higher)
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-```
+### Installation
 
-# Loader HTML
+1. **Clone the repository**
+   ```bash
+   cd /path/to/your/project
+   ```
 
-```
-<div className="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-# Button HTML
+3. **Start the local Internet Computer replica**
+   ```bash
+   dfx start --background --clean
+   ```
 
-```
-<div className="Chip-root makeStyles-chipBlue-108 Chip-clickable">
-            <span
-              onClick={}
-              className="form-Chip-label"
-            >
-              Sell
-            </span>
-            </div>
-```
+4. **Deploy the canisters**
+   ```bash
+   dfx deploy
+   ```
 
-# Price Input HTML
+5. **Access the application**
+   - Open your browser and navigate to the URL shown in the deployment output
+   - Typically: `http://127.0.0.1:8000/?canisterId=<canister-id>`
 
-```
-<input
-        placeholder="Price in DANG"
-        type="number"
-        className="price-input"
-        value={}
-        onChange={}
-      />
-```
+## 💻 Development
 
-# Price Label HTML
+### Project Structure
 
 ```
-<div className="disButtonBase-root disChip-root makeStyles-price-23 disChip-outlined">
-          <span className="disChip-label">23 DANG</span>
-        </div>
+├── src/
+│   ├── mintmine/           # Main marketplace canister
+│   │   └── main.mo
+│   ├── NFT/                # NFT canister
+│   │   └── nft.mo
+│   ├── token/              # MAJI token canister
+│   │   └── main.mo
+│   └── mintmine_assets/    # Frontend
+│       ├── src/
+│       │   ├── components/ # React components
+│       │   │   ├── App.jsx
+│       │   │   ├── Item.jsx
+│       │   │   ├── Minter.jsx
+│       │   │   ├── CollectionPage.jsx
+│       │   │   ├── DiscoverPage.jsx
+│       │   │   └── ...
+│       │   └── index.jsx
+│       └── assets/         # Static assets
+├── dfx.json                # DFX configuration
+├── package.json            # Node dependencies
+└── webpack.config.js       # Webpack configuration
 ```
 
-# Creating NFT for Testing
+### Available Scripts
 
-1. Mint an NFT on the command line to get NFT into mapOfNFTs:
+- **`npm start`** - Start development server
+- **`npm run build`** - Build for production
+- **`dfx deploy`** - Deploy all canisters
+- **`dfx canister call <canister> <method>`** - Call canister methods
 
+### Key Commands
+
+```bash
+# Start local replica
+dfx start --background
+
+# Deploy all canisters
+dfx deploy
+
+# Deploy specific canister
+dfx deploy mintmine
+
+# Check canister status
+dfx canister status mintmine
+
+# Get canister ID
+dfx canister id mintmine
+
+# Stop local replica
+dfx stop
 ```
-dfx canister call opend mint '(vec {137; 80; 78; 71; 13; 10; 26; 10; 0; 0; 0; 13; 73; 72; 68; 82; 0; 0; 0; 10; 0; 0; 0; 10; 8; 6; 0; 0; 0; 141; 50; 207; 189; 0; 0; 0; 1; 115; 82; 71; 66; 0; 174; 206; 28; 233; 0; 0; 0; 68; 101; 88; 73; 102; 77; 77; 0; 42; 0; 0; 0; 8; 0; 1; 135; 105; 0; 4; 0; 0; 0; 1; 0; 0; 0; 26; 0; 0; 0; 0; 0; 3; 160; 1; 0; 3; 0; 0; 0; 1; 0; 1; 0; 0; 160; 2; 0; 4; 0; 0; 0; 1; 0; 0; 0; 10; 160; 3; 0; 4; 0; 0; 0; 1; 0; 0; 0; 10; 0; 0; 0; 0; 59; 120; 184; 245; 0; 0; 0; 113; 73; 68; 65; 84; 24; 25; 133; 143; 203; 13; 128; 48; 12; 67; 147; 94; 97; 30; 24; 0; 198; 134; 1; 96; 30; 56; 151; 56; 212; 85; 68; 17; 88; 106; 243; 241; 235; 39; 42; 183; 114; 137; 12; 106; 73; 236; 105; 98; 227; 152; 6; 193; 42; 114; 40; 214; 126; 50; 52; 8; 74; 183; 108; 158; 159; 243; 40; 253; 186; 75; 122; 131; 64; 0; 160; 192; 168; 109; 241; 47; 244; 154; 152; 112; 237; 159; 252; 105; 64; 95; 48; 61; 12; 3; 61; 167; 244; 38; 33; 43; 148; 96; 3; 71; 8; 102; 4; 43; 140; 164; 168; 250; 23; 219; 242; 38; 84; 91; 18; 112; 63; 0; 0; 0; 0; 73; 69; 78; 68; 174; 66; 96; 130;}, "CryptoDunks #123")'
+
+## 🎮 Usage
+
+### Minting an NFT
+
+1. Navigate to the "Minter" page
+2. Upload an image (PNG, JPEG, GIF, SVG, or WebP)
+3. Enter a name for your NFT collection
+4. Click "Mint NFT"
+5. Wait for the transaction to complete
+
+### Listing an NFT for Sale
+
+1. Go to "My Collection"
+2. Find the NFT you want to sell
+3. Click "Sell"
+4. Enter the price in MAJI tokens
+5. Click "Confirm"
+6. The NFT will appear in the "Discover" page
+
+### Buying an NFT
+
+1. Browse the "Discover" page
+2. Find an NFT you want to purchase
+3. Click "Buy"
+4. Confirm the transaction
+5. The NFT will be transferred to your collection
+
+## 🔧 Configuration
+
+### Updating User ID
+
+The default user ID is set in `src/mintmine_assets/src/index.jsx`:
+
+```javascript
+const CURRENT_USER_ID = Principal.fromText("2vxsx-fae");
 ```
 
-2. List the item into mapOfListings:
+### Token Canister ID
 
-```
-dfx canister call opend listItem '(principal "<REPLACE WITH NFT CANISTER ID>", 2)'
-```
+Update the token canister ID in `src/mintmine_assets/src/components/Item.jsx`:
 
-3. Get OpenD canister ID:
-
-```
-dfx canister id opend
+```javascript
+canisterId: Principal.fromText("rkp4c-7iaaa-aaaaa-aaaca-cai")
 ```
 
-4. Transfer NFT to OpenD:
-
+Get the actual canister ID after deployment:
+```bash
+dfx canister id token
 ```
-dfx canister call <REPLACE WITH NFT CANISTER ID> transferOwnership '(principal "<REPLACE WITH OPEND CANISTER ID>", true)'
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React 18
+- React Router v6
+- React Hook Form
+- Webpack 5
+
+**Backend:**
+- Motoko
+- Internet Computer SDK
+
+**Blockchain:**
+- Internet Computer Protocol (ICP)
+
+## 📝 Smart Contract Methods
+
+### mintmine Canister
+
+- `mint(imageData: [Nat8], name: Text)` - Create a new NFT
+- `listItem(id: Principal, price: Nat)` - List NFT for sale
+- `completePurchase(id: Principal, seller: Principal)` - Complete purchase
+- `getOwnedNFTs(user: Principal)` - Get user's NFTs
+- `getListedNFTs()` - Get all listed NFTs
+- `getListedNFTPrice(id: Principal)` - Get NFT price
+- `isListed(id: Principal)` - Check if NFT is listed
+
+### NFT Canister
+
+- `getName()` - Get NFT name
+- `getOwner()` - Get current owner
+- `getAsset()` - Get image data
+- `transferOwnership(newOwner: Principal)` - Transfer NFT
+
+### Token Canister
+
+- `transfer(to: Principal, amount: Nat)` - Transfer tokens
+- `balanceOf(account: Principal)` - Check balance
+
+## 🔐 Security Considerations
+
+- All transactions are on-chain and immutable
+- NFT ownership is managed by smart contracts
+- Token transfers are atomic
+- Asset data is stored permanently on the blockchain
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Port already in use:**
+```bash
+dfx stop
+dfx start --clean --background
 ```
 
-# Conneting to the Token Canister
-
-1. Copy over the token declarations folder
-
-2. Set the token canister id into the <REPLACE WITH TOKEN CANISTER ID>
-
+**Module hash errors:**
+```bash
+dfx deploy --mode reinstall
 ```
-const dangPrincipal = Principal.fromText("<REPLACE WITH TOKEN CANISTER ID>");
+
+**Frontend not updating:**
+```bash
+npm run build
+dfx deploy mintmine_assets
 ```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Built on the [Internet Computer](https://internetcomputer.org/)
+- Powered by [DFINITY](https://dfinity.org/)
+- React framework by [Meta](https://react.dev/)
+
+## 📞 Support
+
+For questions and support, please open an issue in the repository.
+
+---
+
+**Happy Minting! 🚀**

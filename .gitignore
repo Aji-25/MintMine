@@ -2,14 +2,61 @@
 .vscode/
 .idea/
 **/*~
+*.swp
+*.swo
+.vs/
 
 # Mac OSX temporary files
 .DS_Store
 **/.DS_Store
 
+# Windows temporary files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
 # dfx temporary files
 .dfx/
+canister_ids.json
 
 # frontend code
 node_modules/
 dist/
+build/
+
+# Dependencies
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+*.lcov
+
+# Production
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Webpack
+.cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+.eslintcache
+.stylelintcache
+
+# Backup files
+*.backup
+*.bak
+*.tmp

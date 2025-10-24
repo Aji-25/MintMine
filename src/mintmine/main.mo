@@ -7,7 +7,7 @@ import List "mo:base/List";
 import Iter "mo:base/Iter";
 
 
-actor OpenD {
+actor MintMine {
 
     private type Listing = {
       itemOwner: Principal;
@@ -79,8 +79,8 @@ actor OpenD {
       }
     };
 
-    public query func getOpenDCanisterID() : async Principal {
-      return Principal.fromActor(OpenD);
+    public query func getMintMineCanisterID() : async Principal {
+      return Principal.fromActor(MintMine);
     };
 
     public query func isListed(id: Principal) : async Bool {
@@ -110,12 +110,13 @@ actor OpenD {
 
     };
 
-    public shared(msg) func completePurchase(id: Principal, ownerId: Principal, newOwnerId: Principal) : async Text {
+    public shared(msg) func completePurchase(id: Principal, ownerId: Principal) : async Text {
       var purchasedNFT : NFTActorClass.NFT = switch (mapOfNFTs.get(id)) {
         case null return "NFT does not exist";
         case (?result) result
       };
 
+      let newOwnerId : Principal = msg.caller;
       let transferResult = await purchasedNFT.transferOwnership(newOwnerId);
       if (transferResult == "Success") {
         mapOfListings.delete(id);
@@ -126,6 +127,7 @@ actor OpenD {
         ownedNFTs := List.filter(ownedNFTs, func (listItemId: Principal) : Bool {
           return listItemId != id;
         });
+        mapOfOwners.put(ownerId, ownedNFTs);
 
         addToOwnershipMap(newOwnerId, id);
         return "Success";
